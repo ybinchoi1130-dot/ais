@@ -21,12 +21,29 @@ print(-5)
 print(+5)
 print(3.14)
 
-
+#%%
 # 사칙연산 : +, -,*, /, //, %
 print(5+3)
 print(5-3)
 print(float(4+3))
-print(6/4)
-print(int(6/4))
-print(6//3)
+print(10/4)
+print(int(10/4))
+print(10//4)
+print(13%3)
+print(10/3)
 
+print((4*3-1)+(1+2)*4//2)
+
+print(-10)
+print(-+10)
+print(type(-+10))
+
+#%%
+x=10
+print(+-x)
+print(-x)
+print(x*-1)
+print(type(-x))
+print(type(x*-1))
+
+#%%
