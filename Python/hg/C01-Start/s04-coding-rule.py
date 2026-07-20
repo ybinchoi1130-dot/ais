@@ -122,6 +122,42 @@ print(xy, XY, xY, Xy) # 10 20 30 40
 
 
 #%%
+# 변수 y의 값이 x 값으로 먼저 변경되어
+# 변수 x,y의 값이 같아 진다.
+
+"""
+y=x
+x=y
+print('x=', x)
+print('y=', y)
+
+"""
+
+#%%
+#전통적인 방식의 데이터 교환
+print('x와 y값의 교환')
+z=y  # y값을 z에 임시 보관(대피)
+y=x
+x=z
+
+print('x=',x)
+print('y=',y)
+
+
+#%%
+
+y=20
+x=10
+
+print('x=', x)
+print('y=', y)
+
+print('x와 y값의 교환')
+x, y = y, x
+print('x=',x)
+print('y=',y)
+
+#%%
 Msg = "소식"; _Hello = "Hi!"; Hello = "Hi!"; A123 = "A123";
 print(Msg, _Hello, Hello, A123)
 
