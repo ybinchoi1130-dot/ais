@@ -25,12 +25,13 @@ print(r)
 
 # 난수 발생
 rn = random()
-print(rn)
+print('난수발생:', rn)
 
 # 경우의 수 만듦
 rx = rn * 6
-print(rx)
+print('6 가지경우의 수:', rx)
 
+#%%
 # 경우의 수 정리
 rt = floor(rn * 6)
 print(rt)
