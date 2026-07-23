@@ -80,7 +80,12 @@ age = 34
 
 msg = "고객님의 이름은 ({0})이며 나이는 ({1})세 입니다.".format(name, age)
 print(msg)
+#%%
 
+name = "이순신"
+age = 31
+msg = "고객님의 이름은 ({0})이며 나이는 ({1})세 입니다.".format(name, age)
+print(msg)
 #%%
 
 fmt = "고객님의 이름은 ({0})이며 나이는 ({1})세 입니다."

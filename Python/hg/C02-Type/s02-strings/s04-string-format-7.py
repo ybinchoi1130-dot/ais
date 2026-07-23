@@ -15,5 +15,9 @@ cnt = 10; print(f"I eat {cnt} apples")
 cnt = 11; print(f"I eat {cnt} apples")
 cnt = 20; print(f"I eat {cnt} apples")
 
-
-
+#%%
+fmt = "i eat {0} apples"
+xfmt = lambda count: f"i eat {count} apples" # 변수를 문자로 변환시키기때문에 정상작동 불가 
+count = 13
+print(fmt.format(count))
+print(xfmt(7))

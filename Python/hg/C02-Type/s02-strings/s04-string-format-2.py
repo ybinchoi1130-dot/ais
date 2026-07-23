@@ -53,4 +53,16 @@ print("문자 ('%c')의 코드 값은 (%d)(0x%x)(%s)이다." % (hangeul, hancode
 hexastr = "0x%x" % hancode
 print(hexastr) # 0xd55c
 
+#%%
 
+ch= '다'
+
+print("문자 ('%c')의 코드 값은 (%d)(0x%x)(%s)이다." % (ch, ord(ch), ord(ch), hex(ord(ch))))
+
+#%%
+
+cha = 'a'
+chv = ord(cha)
+chx = chr(chv)
+print(f"{cha},{chv},{chx}")
+print("%s,%d,%c" % (cha,chv,chv))
