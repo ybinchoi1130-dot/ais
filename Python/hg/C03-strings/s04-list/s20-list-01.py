@@ -8,6 +8,7 @@
 
 #%%
 # 빈 리스트
+
 a = []
 print(type(a), a) # <class 'list'> []
 
