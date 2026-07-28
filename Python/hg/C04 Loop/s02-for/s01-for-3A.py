@@ -9,4 +9,19 @@ lists = [(1,'one'), (2,'two'), (3,'three'), (4,'four')]
 for (first, second) in lists: # 4번 반복
     print(f"{first}, {second}")
 
+for it in lists: #tuple로 item 만듬
+    print(type(it),it)
+#%%
+for first, second in lists:
+    print(f"{first},{it}")
+#%%
 
+for inx, it in enumerate(lists):
+    print(f"{inx},{it}")
+  
+""" 
+0,(1, 'one')
+1,(2, 'two')
+2,(3, 'three')
+3,(4, 'four')
+"""

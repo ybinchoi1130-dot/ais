@@ -6,3 +6,20 @@
 # 생성된 숫자만큼 반복 수행
 for cnt in range(10): # 0,1,2,3, ... 9
     print(cnt)
+
+#%%
+from random import randint
+
+
+
+for n in range(10,randint(10,15)):
+    print(n)
+    
+#%%
+counter = range(5)
+
+print(counter)
+
+for cnt in counter:
+    print(cnt)
+    

@@ -34,7 +34,8 @@ elif score >= 90:
 else:
     grade = "잘못된 점수"
     
-print('grade=',grade)
+print(f"시험점수는{score}점으로 등급은{grade}입니다.")
+
 
     
     

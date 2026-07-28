@@ -18,7 +18,7 @@ if x in s or y in s:
 else:
     print(f'문자열 s에 값({x}, {y})가 없다.')
 
-
+#%%
 # 괄호로 묶어서 구분
 b = (x in s) or (y in s)
 print(b)
@@ -27,3 +27,4 @@ if b == True:
 else:
     print(f'문자열 s에 값({x}, {y})가 없다.')
 
+  

@@ -18,3 +18,19 @@ for item in lists: # 4번 반복
     print(item)
 
 
+#%%
+
+cnt=0
+for it in lists:
+    cnt +=1
+    print(f"{cnt} : {it}")
+
+#%%
+for cnt, it in enumerate(lists):
+    print(f"{cnt}: {it}")    
+
+#%%
+tp= (0,'하나')
+inx, val =tp
+print(inx,val)
+print(tp[0],tp[1])
