@@ -4,9 +4,17 @@
 
 # 0부터 10까지 합
 n = 10 + 1
-sum = 0
+tot = 0
 for cnt in range(n): # 0부터 10까지
-    sum += cnt
-    print(f"cnt={cnt}, sum={sum}")
+    tot += cnt
+    print(f"cnt={cnt}, tot={tot}")
 
-print('sum=', sum) # 55
+print('tot=',tot) # 55
+#%%
+n = 10 
+tot = 0
+for cnt in range(n): # 0부터 10까지
+    tot += cnt +1
+    print(f"cnt={cnt}, tot={tot}")
+
+print('tot=',tot) # 55

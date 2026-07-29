@@ -6,7 +6,7 @@
 s = 1       # 시작값
 n = 100      # 종료값
 l = n + 1   # 지정값 = 종료값 + 1
-sum = 0
+sum = 0 #시작값을 지정 안해주면 에러 발생
 for cnt in range(s, l):
     sum += cnt
     print(f"cnt={cnt}, sum={sum}")
@@ -17,13 +17,13 @@ print('sum=', sum)
 
 # 수열의 합
 n = 100
-tot = n * (n + 1) // 2
-print('tot=', tot)  # 5050
+total = n * (n + 1) // 2
+print('tot=', total)  # 5050
 
 #%%
 
 # 검증
-ctx = sum == tot
-print(f'sum({sum}) == tot({tot}) ?', ctx)
+ctx = sum == total
+print(f'sum({sum}) == total({total}) ?', ctx)
 
 

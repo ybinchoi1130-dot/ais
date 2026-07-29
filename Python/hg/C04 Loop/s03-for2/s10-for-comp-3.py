@@ -9,6 +9,6 @@
 #
 
 # 리스트 내포 사용 : 구구단
-result = [m * n for m in range(2,10) 
-            for n in range(1,10)]
+result = [m * n for m in range(2,10) if m % 2 == 1
+            for n in range(1,10) if n % 2 ==0]
 print(result)

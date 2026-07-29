@@ -16,10 +16,27 @@
 2 * 8 = 16
 2 * 9 = 18
 """
+#%%
+sn=2
+en=9
+for n in range(sn,en+1):
+    print(f"[{n}단]")
+    for x in range(1,10):
+        print(f"{n}*{x}= {n*x}")
+    print()
+    
+    
+
 
 #%%
 
 # [문제2] 구구단을 출력하라.
 # 2단부터 9단까지 출력하는데 2개 단 단위로 출력하다.
 
-
+sn=2
+en=9
+for n in range(sn,en+1,2):
+    print(f"[{n}단]           [{n+1}단]")
+    for x in range(1,10):
+        od = f"{n}*"
+    print()

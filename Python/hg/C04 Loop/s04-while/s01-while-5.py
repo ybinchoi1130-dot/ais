@@ -17,6 +17,20 @@ while 조건식:
 #    "커피를 1 번 볶는다"
 #    "커피를 2 번 볶는다"
 """
+
+#%%
+what = "커피를"
+count = 10
+fmt = '{0} {1}번 볶는다'
+
+n=1
+
+while n <= count:
+    print(fmt.format(what,n))
+    n += 1
+    
+print("{0}번 완료했습니다.".format(count))
+
 #%%
 
 what = '커피를'

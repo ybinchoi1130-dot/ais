@@ -5,4 +5,5 @@ contents = {'1층':'전시장', '2층':'매장', '3층':'사무실', '4층':'통
 
 # 딕셔너리(키, 값)
 for key, value in contents.items():
+  
     print(key, value)
