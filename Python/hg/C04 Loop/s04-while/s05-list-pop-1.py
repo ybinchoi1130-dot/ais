@@ -1,6 +1,6 @@
 # 반복문(while)
 
-lst = [2,4,6,8,10]
+lst = [2,4,6,8,10,1]
 
 # LIFO(Last In Fist Out), 후입선출, Stack(스택)
 # list.pop() 자료를 마지막에서 하나씩 꺼냄
