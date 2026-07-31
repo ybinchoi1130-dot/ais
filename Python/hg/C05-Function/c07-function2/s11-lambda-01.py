@@ -37,6 +37,8 @@ print(f"값 {a}와 {b} 중에 큰 값은? {c}")
 # 람다함수변수: lambda_max
 lambda_max = lambda a, b: a if a > b else b
 
+#%% 오류 코딩
+#lambda_max2 = lambda a, b: if a > b else b
 #%%
 # 람다함수: 호출
 x = 99

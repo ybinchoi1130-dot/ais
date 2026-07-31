@@ -26,6 +26,31 @@ c = 50
 max = lambda a, b, c: a if a > b and a > c else b if b > c else c
 print(f"{a}, {b}, {c} 중에 가장 큰 값은?", max(a,b,c))
 
+#%% 함수 정의
+def find_max(a, b, c):
+    if a > b and a > c:
+        return a
+    elif b > c:
+        return b
+    else:
+        return c
+
+a = 30
+b = 40
+c = 50
+
+print(f"{a}, {b}, {c} 중에 가장 큰 값은?", find_max(a, b, c))
 #%%
+a = 30
+b = 40
+c = 50
 
+# 함수 없이 바로 조건문을 사용해 가장 큰 값을 찾습니다.
+if a > b and a > c:
+    max_val = a
+elif b > c:
+    max_val = b
+else:
+    max_val = c
 
+print(f"{a}, {b}, {c} 중에 가장 큰 값은?", max_val)
