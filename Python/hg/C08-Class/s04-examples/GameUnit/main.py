@@ -30,7 +30,7 @@ st1 = Stealth()
 
 # 유닛 일괄 관리(생성된 모든 유닛 추가)
 attack_units = []
-attack_units.append(so1)
+attack_units.append(so1) 
 attack_units.append(so2)
 attack_units.append(so3)
 attack_units.append(ta1)
@@ -61,6 +61,6 @@ for unit in attack_units:
 # 전군 피해
 for unit in attack_units:
     unit.damaged(randint(5, 20)) # 피해는 무작위로 받음(5~20)
-    
+#%%    
 # 게임 종료
 game_over()

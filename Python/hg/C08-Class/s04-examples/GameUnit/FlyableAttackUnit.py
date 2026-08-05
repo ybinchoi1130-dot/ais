@@ -10,4 +10,5 @@ class FlyableAttackUnit(AttackUnit, Flyable):
         Flyable.__init__(self, flying_speed)
 
     def move(self, location):
+   
         self.fly(self.name, location)
