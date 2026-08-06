@@ -25,6 +25,9 @@ Created on Wed Mar 13 15:54:19 2024
 # 필수적으로 처리를 해야할 루틴이 있는 경우
 
 def compute(x, y):
+    
+    z = 0
+    
     try:
         if x < 0 or x > 100:
             return -1
@@ -44,5 +47,11 @@ def compute(x, y):
 print(compute(10, 3))
 
 #%%
+
 print(compute(-1, 3))
+
+#%%
+
+print(compute(10, 0))
+
 

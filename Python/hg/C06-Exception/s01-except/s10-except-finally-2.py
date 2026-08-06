@@ -50,3 +50,11 @@ if __name__ == "__main__":
    except CustomerNOTFINDERROR as e:
         print(e)
     
+   try:
+       phone = delete_customer("홍길동")
+       print(f"홍길동님의 정보를 삭제완료했습니다.")
+   except CustomerNOTFINDERROR as e:
+       print(e)
+       
+print(customer_list)
+   

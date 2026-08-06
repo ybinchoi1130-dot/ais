@@ -15,32 +15,23 @@
 
 # 파일을 읽기용으로 오픈
 
-# FileNotFoundError: [Errno 2] No such file or directory: '없는파일.txt'
-file = open("없는파일.txt", 'r') 
-
-#%%
 import os
 import sys
 
-filename = "없는 파일.txt"
+filename = "없는파일.txt"
+
 # 존재유무?
-if os.path.exists(filename) != True :
-    print(f"해당 파일 ({filename})이 존재하지 않습니다.")
-    sys.exit(-1)
-# 파일 or 폴더 ?    
-if os.path.isfile(filename) != True :
-    print(f"{filename}은 파일이 아니고 폴더인 것 같습니다.")
+if os.path.exists(filename) != True:
+    print(f"해당 파일({filename})이 존재하지 않습니다.")
     sys.exit(-1)
     
-file = open("없는 파일.txt", 'r')
-file.close()
-
+# 폴더 or 파일 ?    
+if os.path.isfile(filename) != True:
+    print(f"({filename})은 파일이 아니고 폴더인 것 같습니다.")
+    sys.exit(-1)
+    
+file = open("없는파일.txt", 'r') # 파일열기
+file.close()  # 파일닫기
 
 #%%
-try:
-    file = open("./없는파일.txt", 'r') 
-except FileNotFoundError as ex:
-    print("[예외발생] ", ex)
-    print("존재하지 않는 파일입니다.")
 
-    

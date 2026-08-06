@@ -16,15 +16,16 @@
 #%%
 
 x = 10
-y = 0
+# y = 0
+y = 3
 z = 0
 
 # 모든 예외를 하나의 블록에서 처리한다.
 # 예외 종류는 확인하지 않음
 # 예외 메시지를 확인
 try:
+    file = open("./없는파일.txt", 'r')
     z = x / y
-    file = open("./없는 파일.txt", 'r') 
     print("정상처리")
 except Exception as e: # 모든 예외처리
     print("[예외발생]", e)
