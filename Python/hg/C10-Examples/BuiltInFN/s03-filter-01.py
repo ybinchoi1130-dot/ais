@@ -45,6 +45,15 @@ lst1 = list(fr1)
 lst2 = list(fr2)
 print(lst1) # [1, 2, 7, 9]
 print(lst2) # []
+#%%
+#리스트 =filter(롤백함수, 리스트)
+def filterx(func,lst):
+    result = []
+    for x in lst:
+        if func(x):
+            result.append(x)
+        return result
+
 
 #%%
 
