@@ -1,0 +1,1 @@
+jupyter notebook --notebook-dir=D:\AI_yb\Github\ais\Python\jupyter\notebook

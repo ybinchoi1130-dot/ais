@@ -31,28 +31,8 @@ exam_data = {'이름' : ['서준', '우현', '인아'],
              '음악' : [ 85, 95, 100],
              '체육' : [ 100, 90, 90]}
 df = pd.DataFrame(exam_data)
-df.set_index('이름',inplace=True)
-#axis=1 : 가로축
-df['총점'] = df.sum(axis=1)
-df['평균'] = df.iloc[:,:4].mean(axis=1).round()
-
-total_row = df.iloc[:,:4].sum(axis=0)
-mean_row = df.iloc[:,:4].mean(axis=0).round()
-
-#total_row['총점'] = 0
-#total_row['평균'] = 0
-#mean_row['총점'] = 0
-#mean_row['평균'] = 0
-
-df.loc['과목별 총점'] = total_row
-df.loc['과목별 평균'] = mean_row
-
- 
-
 print(df)
 print('\n')
 
 #%%
 
-df.to_csv("학생성적표.txt")
-df.to_excel("학생성적표.xlsx")

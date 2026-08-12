@@ -1,0 +1,12 @@
+[교재] 데이터 분석을 위한 판다스 입문
+
+(Github)
+https://github.com/EasysPublishing/do_it_pandas
+
+(jupyter notebook)
+# 주피터 노트북 파이썬 코드 파일이 있는 폴더
+폴더: D:\AIS26L\Python\books\do_it_pandas\notebook
+jupyter notebook --notebook-dir="주피터노트북폴더"
+
+conda activate ais
+jupyter notebook --notebook-dir=D:\AIS26L\Python\books\do_it_pandas\notebook
