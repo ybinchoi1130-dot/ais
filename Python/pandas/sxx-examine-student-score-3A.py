@@ -1,4 +1,11 @@
 # -*- coding: utf-8 -*-
+
+# 학생 성적 처리
+# 학생별 총점, 평균을 구함
+# Series.sum() 메서드를 사용하여 총점을 구함
+
+#%%
+
 import pandas as pd
 
 # DataFrame() 함수로 데이터프레임 변환. 변수 df에 저장 
@@ -43,10 +50,13 @@ for x in range(len(ndf)):
 print(ndf)    
 """
 #%%
+
+# Series.sum()을 이용하여 과목별 총점을 구함
+
 print("# 학생별 총점 및 평균 #")
 for x in range(len(ndf)): # 총 행의 갯수
     rows = ndf.iloc[x, :]
-    tot = rows.sum()
+    tot = rows.sum()      # Series.sum(): 합계
     ndf.iloc[x,4] = tot
     ndf.iloc[x,5] = tot // cnt
 

@@ -7,7 +7,7 @@ Created on Mon Aug 10 09:46:47 2026
 
 #%%
 import pandas as pd
-print(pd.__version__)                                                                                   
+print(pd.__version__)
 
 #%%
 

@@ -12,22 +12,28 @@
 
 import pandas as pd
 
-s = pd.Series(['banana', 42])
-print(s)
+#%%
+
+# 리스트(list)로 판다스 시리즈 객체 생성
+# 인덱스(index)를 지정하지 않으면 0부터 순번이 부여
+s1 = pd.Series(['banana', 42])
+print(s1)
 
 
 # In[64]:
 
 
-s = pd.Series(data=['Wes McKinney', 'Creator of Pandas'], index=['Person', 'Who'])
-print(s)
+s2 = pd.Series(data=['Wes McKinney', 'Creator of Pandas'], 
+              index=['Person', 'Who'])
+print(s2)
 
 
+#%%
 # #### [Do It! 실습] 데이터 프레임 만들기
 
 # In[65]:
 
-
+# 딕셔너리(dict)로 데이터프레임 객체 생성
 scientists = pd.DataFrame({
         "Name": ["Rosaline Franklin", "William Gosset"],
         "Occupation": ["Chemist", "Statistician"],
@@ -41,8 +47,12 @@ print(scientists)
 
 # In[66]:
 
-
-scientists = pd.DataFrame(
+# 주의:
+# dict의 키가 컬럼으로 지정되는데 옵션으로 columns을 지정할 수 있다.
+# 그러나 dict의 키와 columns의 이름이 일치하지 않으면
+# 데이터가 들어가지 않는다.
+# 컬럼명의 지정의 우선 순위는 옵션(columns)이 최종적으로 반영된다.
+scientists2 = pd.DataFrame(
     data={
         "Occupation": ["Chemist", "Statistician"],
         "Born": ["1920-07-25", "1876-06-13"],
@@ -53,9 +63,10 @@ scientists = pd.DataFrame(
     columns=["Occupation", "Born", "Died", "Age"],
 )
 
-print(scientists)
+print(scientists2)
 
 
+#%%
 # ## 03-2 시리즈 다루기
 
 # #### [Do It! 실습] 시리즈 추출하기
@@ -92,37 +103,42 @@ print(first_row)
 
 # In[70]:
 
-
+# 데이터프레임(scientists)의 컬럼 목록
 print(first_row.index)
-
+# Index(['Occupation', 'Born', 'Died', 'Age'], dtype='str')
 
 # In[71]:
 
 
 print(first_row.values)
+# ['Statistician' '1876-06-13' '1937-10-16' np.int64(61)]
 
+#%%
 
 # ### 시리즈의 keys() 메서드
 
 # In[72]:
 
-
+# 리턴: 시리즈의 인덱스
 print(first_row.keys())
-
+# Index(['Occupation', 'Born', 'Died', 'Age'], dtype='str')
 
 # In[73]:
 
-
-print(first_row.index[0])
+# 시리즈의 인덱스 속성의 첫번째 요소
+print(first_row.index[0]) # Occupation
 
 
 # In[74]:
 
+# 시리즈의 메서드인 keys()가 리턴한 결과의 첫 번째 요소
+print(first_row.keys()[0]) # Occupation
 
-print(first_row.keys()[0])
+#%%
 
+# 넘파이(numpy)를 기반으로 판다스(pandas)를 만듦
 
-# ### 시리즈와 ndarray
+# ### 시리즈와 ndarray(다차원 배열)
 
 # #### [Do It! 실습] 시리즈의 메서드 사용하기
 
@@ -135,38 +151,37 @@ print(ages)
 
 # In[76]:
 
-
 # 평균
-print(ages.mean())
+print(ages.mean()) # 49.0
 
 
 # In[77]:
 
 
 # 최솟값
-print(ages.min())
+print(ages.min()) # 37
 
 
 # In[78]:
 
 
 # 최댓값
-print(ages.max())
+print(ages.max()) # 61
 
 
 # In[79]:
 
 
 # 표준 편차
-print(ages.std())
+print(ages.std()) # 16.97056274847714
 
 
 # ### 시리즈와 불리언
 
 # In[80]:
 
-
-scientists = pd.read_csv('../data/scientists.csv')
+import pandas as pd
+scientists = pd.read_csv('./data/scientists.csv', sep=',')
 
 
 # #### [Do It! 실습] 기술 통계량 계산하기
@@ -180,14 +195,31 @@ print(ages)
 
 # In[82]:
 
-
+# 다양한 기술 통계량
 print(ages.describe())
+
+ages_desc = ages.describe()
+
+#%%
+
+# 데이터의 분포 확인
+"""
+count     8.000000
+mean     59.125000
+std      18.325918
+min      37.000000
+25%      44.000000
+50%      58.500000
+75%      68.750000
+max      90.000000
+Name: Age, dtype: float64
+"""
 
 
 # In[83]:
 
-
-print(ages.mean())
+# 평균
+print(ages.mean()) # 59.125
 
 
 # In[84]:
@@ -195,11 +227,32 @@ print(ages.mean())
 
 print(ages[ages > ages.mean()])
 
+#%%
+
+"""
+1    61
+2    90
+3    66
+7    77
+Name: Age, dtype: int64
+"""
 
 # In[85]:
 
 
 print(ages > ages.mean())
+
+"""
+0    False
+1     True
+2     True
+3     True
+4    False
+5    False
+6    False
+7     True
+Name: Age, dtype: bool
+"""
 
 
 # In[86]:
@@ -210,7 +263,7 @@ print(type(ages > ages.mean()))
 
 # In[87]:
 
-
+# True인 위치에 있는 시리즈 데이터만 선택
 manual_bool_values = [
     True,   # 0
     True,   # 1
@@ -223,14 +276,28 @@ manual_bool_values = [
 ]
 print(ages[manual_bool_values])
 
+ages_manual_series = ages[manual_bool_values]
 
+#%%
+
+"""
+0    37
+1    61
+4    56
+5    45
+7    77
+Name: Age, dtype: int64
+"""
+
+#%%
 # ### 시리즈와 브로드캐스팅
 
 # #### [Do It! 실습] 벡터와 벡터, 벡터와 스칼라 계산하기
 
 # In[88]:
 
-
+# 벡터의 요소의 갯수가 같은 경우
+# 결과: 원본 벡터 요소와 동일한 갯수
 print(ages + ages)
 
 
@@ -242,7 +309,8 @@ print(ages * ages)
 
 # In[90]:
 
-
+# 벡터의 모든 요소에 한 개의 값을 대입해서 연산을 수행
+# 결과: 벡터의 요소와 동일한 갯수
 print(ages + 100)
 
 
@@ -252,14 +320,51 @@ print(ages + 100)
 print(ages * 2)
 
 
+#%%
+
 # #### [Do It! 실습] 길이가 서로 다른 벡터 연산하기
 
 # In[92]:
 
+# 인덱스가 동일한 요소끼리 연산을 수행
+# 나머지 요소는 NaN(Not a Number) 
+twos =  pd.Series([1, 100])
+# print(ages + pd.Series([1, 100]))
+print(ages + twos)
 
-print(ages + pd.Series([1, 100]))
+#%%
 
+"""
+0     38.0
+1    161.0
+2      NaN
+3      NaN
+4      NaN
+5      NaN
+6      NaN
+7      NaN
+dtype: float64
+"""
 
+#%%
+
+# 동일한 인덱스끼지 연산을 수행
+# 없는 인덱스는 결측값(NaN)으로 채운다.
+three =  pd.Series([1, 3, 5], index=[2,4,6])
+print(ages + three)
+
+#%%
+"""
+0     NaN
+1     NaN
+2    91.0
+3     NaN
+4    59.0
+5     NaN
+6    46.0
+7     NaN
+dtype: float64
+"""
 # In[93]:
 
 

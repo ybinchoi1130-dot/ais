@@ -7,24 +7,15 @@
 
 # In[1]:
 
-
+# x의 제곱함수 
 def my_sq(x):
     return x ** 2
 
 
 # In[2]:
 
-
+# 2개 값의 평균
 def avg_2(x, y):
-    return (x + y) / 2
-
-
-# In[3]:
-
-
-def avg_2(x, y):
-    """두 숫자의 평균을 구하는 함수
-    """
     return (x + y) / 2
 
 
@@ -68,30 +59,39 @@ print(df['a'] ** 2)
 
 # In[8]:
 
-
+# 컬럼의 'a' 자료형
 print(type(df['a']))
 
 
 # In[9]:
 
-
+# 행 : 0번쨰 행
 print(type(df.iloc[0]))
 
 
 # In[10]:
 
+# 데이터프레임(df)의 시리즈 칼럼('a')의 함수(제곱)를 적용
+# 참조한 시리즈와 도일한 갯수가 함수의 결과를 도출된다.
+# 시리즈의 각 셀이 함수에 전달되어 연산을 수행후 리턴값이 새로운 시리즈에 반영
 
-sq = df['a'].apply(my_sq)
+def sq2(x):
+    print(f"[sq2] {x}")
+    return x ** 2
+
+
+# 함수 (sq2)는 3번 호출된다.
+sq = df['a'].apply(sq2)
 print(sq)
 
-
+#%%
 # #### [Do It! 실습] 사용자 함수 만들어 데이터프레임에 적용하기
 
 # In[11]:
 
-
 def my_exp(x, e):
     return x ** e
+
 
 
 # In[12]:
@@ -104,13 +104,13 @@ print(cubed)
 
 # In[13]:
 
-
-# my_exp(2)  # 오류
+my_exp(2)  # 오류
 
 
 # In[14]:
 
-
+# 2번째 인자에 파라미터를 명시해야 한다.
+# 키워드 매개변수(keyword argument)
 ex = df['a'].apply(my_exp, e=2)
 print(ex)
 
@@ -138,13 +138,20 @@ print(df)
 def print_me(x):
     print(x)
 
+def print_me2(x):
+    print(x)
+
+
 
 # #### [Do It! 실습] 열 단위로 함수 적용하기
 
 # In[18]:
 
-
+# 열을 대상으로 print_me  함수를 적용
 df.apply(print_me, axis=0)
+
+# 행을 대상으로 print_me2  함수를 적용
+df.apply(print_me2,axis=1)
 
 
 # In[19]:
@@ -221,6 +228,21 @@ print(df.apply(avg_2_apply, axis=1))
 df = pd.DataFrame({'a': [10, 20, 30],
                    'b': [20, 30, 40]})
 print(df)
+
+def avg_2_apply(row):
+    print("[avg_2_apply] \n",row)
+    #오류
+    x=row[0]
+    y=row[1]
+    #방법1 순번으로 참조
+    x=row.iloc[0]
+    y=row.iloc[1]
+    #방법2 인덱스로 참조
+    x=row['a']
+    y=row['b']
+    return (x+y) /2
+
+
 
 
 # In[29]:

@@ -3,6 +3,12 @@
 
 # In[88]:
 
+# seaborn
+# pip install matplotlib
+# pip install seaborn    
+# pip install scipy
+
+#%%    
 
 # 그래프 반복 호출로 생기는 경고 감추기
 import warnings
@@ -52,6 +58,7 @@ dataset_3 = anscombe[anscombe['dataset'] == 'III']
 dataset_4 = anscombe[anscombe['dataset'] == 'IV']
 
 
+#%%
 # ### 그림 영역과 하위 그래프 이해하기
 
 # #### [Do It! 실습] 한 번에 4개의 그래프 그리기
@@ -59,11 +66,12 @@ dataset_4 = anscombe[anscombe['dataset'] == 'IV']
 # In[94]:
 
 
+# 2행 2열
 fig = plt.figure()
-axes1 = fig.add_subplot(2, 2, 1)
-axes2 = fig.add_subplot(2, 2, 2)
-axes3 = fig.add_subplot(2, 2, 3)
-axes4 = fig.add_subplot(2, 2, 4)
+axes1 = fig.add_subplot(2, 2, 1) # 0,0
+axes2 = fig.add_subplot(2, 2, 2) # 0,1 
+axes3 = fig.add_subplot(2, 2, 3) # 1,0
+axes4 = fig.add_subplot(2, 2, 4) # 1,2
 
 plt.show()
 
@@ -104,7 +112,7 @@ axes2.set_title("dataset_2")
 axes3.set_title("dataset_3")
 axes4.set_title("dataset_4")
 
-fig.suptitle("Anscombe Data")
+fig.suptitle("Anscombe Data") # 제목
 
 fig.set_tight_layout(True)
 
@@ -126,7 +134,7 @@ print(tips)
 
 # In[98]:
 
-
+# 히스토그램: 빈도수
 fig = plt.figure()
 
 axes1 = fig.add_subplot(1, 1, 1)
@@ -140,12 +148,13 @@ axes1.set_ylabel('Frequency')
 plt.show()
 
 
+#%%
+
 # ### 이변량 그래프 그리기
 
 # #### [Do It! 실습] 산점도 그래프 그리기
 
 # In[99]:
-
 
 scatter_plot = plt.figure()
 axes1 = scatter_plot.add_subplot(1, 1, 1)
@@ -158,11 +167,19 @@ axes1.set_ylabel('Tip')
 
 plt.show()
 
-
+#%%
 # #### [Do It! 실습] 박스 그래프 그리기
 
 # In[100]:
 
+# boxplot: 상자 수염 그림
+# 데이터의 분포 상태와 이상치를 파악
+# 이상치: 극단적인 값
+# 최대값(Maximum): 정상적인 범위 내에서 가장 큰 값, 윗쪽 수염의 끝
+# 제3사분위(Q3,75%): 상위 25%
+# 중앙값(Q2, 50%): 데이터의 정중앙, 박스 가로선
+# 제1사분위(Q1,25%): 하위 25%
+# 최솟값(Minimum): 정상적인 범위 내에서 가장 작은 값, 아랫쪽 수염의 끝
 
 boxplot = plt.figure()
 axes1 = boxplot.add_subplot(1, 1, 1)
@@ -172,7 +189,9 @@ axes1.boxplot(
         tips[tips['sex'] == 'Female']['tip'],
         tips[tips['sex'] == 'Male']['tip']
     ],
-    labels=['Female', 'Male']
+    # labels=['Female', 'Male']
+    # 버전: 3.9.0
+    tick_labels=['Female', 'Male']
 )
 
 axes1.set_xlabel('Sex')

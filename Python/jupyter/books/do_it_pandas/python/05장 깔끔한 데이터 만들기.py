@@ -79,6 +79,10 @@ print(billboard_long)
 
 # #### [Do It! 실습] 깔끔한 데이터 만들기 첫 번째
 
+# 에볼라 바이러스의 나라별 확진자 및 사망자수
+# Cases: 확진 사례
+# Deaths : 사망자 수 
+
 # In[8]:
 
 
@@ -117,10 +121,11 @@ print(type(variable_split))
 
 
 # In[13]:
-
-
+#[0번째] 행의인덱스(loc) 또는 순번(iloc)의 값
+print(len(variable_split.iloc[0]))
+print(len(variable_split.loc[0]))
 print(type(variable_split[0]))
-
+print(type(variable_split[1]))
 
 # In[14]:
 
@@ -154,7 +159,7 @@ ebola_long = ebola.melt(id_vars=['Date', 'Day'])
 
 
 # In[18]:
-
+#expand=True : 컬럼을 분할해서 데이터 프레임으로 생성
 
 # split the column by _ into a dataframe using expand
 variable_split = ebola_long.variable.str.split('_', expand=True)
@@ -163,14 +168,24 @@ print(variable_split)
 
 # In[19]:
 
-
+#데이터프레임에 다중으로 컬럼을 추가
 ebola_long[['status', 'country']] = variable_split
 print(ebola_long)
 
-
+#%%
 # ## 05-4 변수가 행과 열 모두에 있을 때
 
 # #### [Do It! 실습] 행과 열 모두에 있는 변수 정리하기
+
+# 컬럼 설명
+# id : 식별자
+# year : 연도
+# month : 월
+# element : tmin(최저기온),tmax(최고기온)
+# d1~31 : 일에 해당하는 온도
+
+
+
 
 # In[20]:
 
@@ -181,11 +196,11 @@ print(weather.iloc[:5, :11])
 
 # In[21]:
 
-
+# 긴 데이터 형태로 변환
 weather_melt = weather.melt(
     id_vars=["id", "year", "month", "element"],
     var_name="day",
-    value_name="temp",
+    value_name="temp", # 온도 : temperature
 )
 
 print(weather_melt)
@@ -193,7 +208,7 @@ print(weather_melt)
 
 # In[22]:
 
-
+# 넓은 데이터 형태로 변환
 weather_tidy = weather_melt.pivot_table(
     index=['id', 'year', 'month', 'day'],
     columns='element',
@@ -212,7 +227,7 @@ print(weather_tidy_flat)
 # In[24]:
 
 
-weather_tidy = (
+weather_tidy2 = (
     weather_melt
     .pivot_table(
         index=['id', 'year', 'month', 'day'],
@@ -220,11 +235,29 @@ weather_tidy = (
         values='temp')
     .reset_index()
 )
-print(weather_tidy)
+print(weather_tidy2)
 
 
 # In[ ]:
+# IndentationError: unexpected indent
+weather_tidy3 = weather_melt
+        .pivot_table(
+            index=['id', 'year', 'month', 'day'],
+            columns='element',
+            values='temp')
+        .reset_index()
+    
+print(weather_tidy3)
+    
+#%%
+
+weather_tidy3 = weather_melt.pivot_table(
+         index=['id', 'year', 'month', 'day'],
+         columns='element',
+         values='temp').reset_index()
+ 
+print(weather_tidy3)
 
 
 
-
+    

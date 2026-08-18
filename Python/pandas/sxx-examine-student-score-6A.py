@@ -29,8 +29,8 @@ subject_cnt = len(ndf.columns)
 print("과목건수: ", subject_cnt)
 
 # 컬럼 추가
-#ndf['총점'] = 0
-#ndf['평균'] = 0
+ndf['총점'] = 0
+ndf['평균'] = 0
 print(ndf)
 
 #%%
@@ -47,9 +47,9 @@ print("# 학생별 총점 및 평균 #")
 for student in ndf.index: # 인덱스: 학생이름
     scores = ndf.loc[student] # 각 학생의 모든 과목점수
     tot = scores.sum()
-    avg = scores.mean()
+    
     ndf.loc[student, '총점'] = tot                # 총점
-    ndf.loc[student, '평균'] = int(avg) # 평균
+    ndf.loc[student, '평균'] = tot // subject_cnt # 평균
 
 print(ndf)    
 
@@ -58,8 +58,8 @@ print(ndf)
 rowcnt = len(ndf) #  전체 행의 갯수 : 3건
 
 # 과목별 총점, 평균을 위한 행 추가
-#ndf.loc['총점'] = 0
-#ndf.loc['평균'] = 0
+ndf.loc['총점'] = 0
+ndf.loc['평균'] = 0
 
 #%%
 
@@ -70,10 +70,9 @@ for subject in ndf.columns[0:4]: # 수학 -> 체육
     # 각 칼럼의 과목별 전체 학생 데이터의 시리즈(Series)
     scores = ndf.loc[:, subject]    
     tot = scores.sum()
-    avg = scores.mean()
     
     ndf.loc['총점', subject] = tot
-    ndf.loc['평균', subject] = int(avg)
+    ndf.loc['평균', subject] = tot // rowcnt
     
 print(ndf)    
 
