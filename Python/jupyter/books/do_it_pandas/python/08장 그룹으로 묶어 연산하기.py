@@ -15,6 +15,9 @@ df = pd.read_csv('../data/gapminder.tsv', sep='\t')
 
 # In[2]:
 
+# 그룹 : year    
+# 컬럼 : lifeExp
+# 평균 : mean()
 
 avg_life_exp_by_year = df.groupby('year')["lifeExp"].mean()
 print(avg_life_exp_by_year)
@@ -26,6 +29,48 @@ print(avg_life_exp_by_year)
 years = df.year.unique()
 print(years)
 
+#%%
+
+years2 =df["year"].unique()
+print(years2)
+
+print(df.year.value_counts())
+
+"""
+year
+1952    142
+1957    142
+1962    142
+1967    142
+1972    142
+1977    142
+1982    142
+1987    142
+1992    142
+1997    142
+2002    142
+2007    142
+"""
+#%%
+# 빈도수의 값으로 오름차순으로 정렬
+print(df.year.value_counts(ascending=True))
+
+#%%
+# 년도로 정렬 오름차순으로 정렬
+print(df["year"].value_counts().sort_index(ascending=False))
+
+#%%
+print(df.groupby('year')['lifeExp'].count())
+
+#%%
+print(df.groupby('year')['lifeExp'].min())
+
+#%%
+print(df.groupby('year')['lifeExp'].max())
+
+#%%
+#표준편차
+print(df.groupby('year')['lifeExp'].std())
 
 # In[4]:
 
@@ -44,8 +89,9 @@ print(y1952_mean)
 # ### groupby() 메서드와 함께 사용하는 집계 메서드
 
 # In[6]:
-
-
+# 요약 통계 : describe()
+# 그룹 : 대륙별  continent
+# 컬럼 : lifeExp
 continent_describe = df.groupby('continent')["lifeExp"].describe()
 print(continent_describe)
 
@@ -55,25 +101,35 @@ print(continent_describe)
 # #### [Do It! 실습] 다른 라이브러리의 집계 함수 사용하기
 
 # In[7]:
+# 판다스는 넘파이를 기반으로 만든 프레임워크
 
-
+# agg 매서드에 평균을 구하는 넘파이 함수를 전달
 import numpy as np
 
 cont_le_agg = df.groupby('continent')["lifeExp"].agg(np.mean)
 print(cont_le_agg)
 
 
-# #### [Do It! 실습] 사용자 집계 함수 사용하기
+
+#%%
+#판다스의 평균 함수를 사용
+cont_le_mean = df.groupby('continent')['lifeExp'].mean()
 
 # In[8]:
-
-
+# 사용자의 평균 계산 함수
+# 파라미터 : value는 지정된 그룹('year') 단위로 전달된다.
+my_mean_cnt = 0
 def my_mean(values):
+    global my_mean_cnt
+    my_mean_cnt += 1
+    print("[my_mean] count=",my_mean_cnt)
+    print(values)
+    
     n = len(values)   # 숫자 개수를 구합니다.
     sum = 0           # 합계를 0으로 초기화합니다.
     for value in values:
         sum += value  # 각 값을 더합니다.
-    return sum / n    # 합계를 숫자 개수로 나눈 값을 반환합니다.
+    return sum / n    # 합계를 숫자 개수로 나눈 값을 반환합니다.7
 
 
 # In[9]:
@@ -84,8 +140,9 @@ print(agg_my_mean)
 
 
 # In[10]:
-
-
+# 연도나 대륙과 상관없이 전체 기대 수명의 평균!
+# diff_value : 연도나 대륙과 상관없이 전체 기대 수명의 평균
+# 결과 : 그룹별 기대수명의 평균 - 전체 기대 수명의 평균
 def my_mean_diff(values, diff_value):
     n = len(values)
     sum = 0
@@ -116,6 +173,26 @@ print(agg_mean_diff)
 
 
 # ### 여러 개의 집계 함수 한 번에 사용하기
+#%%
+
+# 데이터프레임의 info()와 같은 정보를 데이터프레임으로 생성
+info_df=pd.DataFrame({
+    'Non-Null Count':df.count(),
+    'Dtype':df.dtypes
+    })
+print(df.count())
+print(df.dtypes)
+
+#%%
+# 인덱스를 컬럼으로 이동
+# 컬럼으로 이동된 인덱스명('index')를 'Colum'으로 변경
+
+info_df2=pd.DataFrame({
+    'Non-Null Count':df.count(),
+    'Dtype':df.dtypes
+    }).reset_index().rename(columns={'index':'Column'})
+print(df.count())
+print(df.dtypes)
 
 # In[13]:
 
@@ -139,9 +216,9 @@ print(gdf)
 
 gdf_dict = df.groupby("year").agg(
     {
-        "lifeExp": "mean",
-        "pop": "median",
-        "gdpPercap": "median"
+        "lifeExp": "mean",     #기대수명의 평균
+        "pop": "median",       #인구수의 중간값
+        "gdpPercap": "median"  #GDP의 중간값
     }
 )
 
@@ -175,7 +252,7 @@ gdf = (
 )
 
 print(gdf)
-
+#%%
 
 # ## 08-2 데이터 변환하기
 
@@ -183,10 +260,22 @@ print(gdf)
 
 # #### [Do It! 실습] 표준점수 계산 함수 만들기
 
+
+# 표준점수는 응시자의 원점수가
+# 전체 수험생의 평균 점수로부터 얼마나 떨어져 있는지를
+# 표준편차를 기준으로 변환한 점수
+
 # In[16]:
 
-
+# 표준편차를 구하는 함수 
+cntx = 0
 def my_zscore(x):
+    global cntx
+    cntx += 1
+    print(f"[{cntx:02}] x:{len(x)}, mean :{round(x.mean(),2)}, std:{round(x.std(),2)}")
+    print("="*30)
+    print(x)
+    print("="*30)
     return((x - x.mean()) / x.std())
 
 
@@ -194,7 +283,7 @@ def my_zscore(x):
 
 
 transform_z = df.groupby('year')["lifeExp"].transform(my_zscore)
-print(transform_z)
+print(len(transform_z))
 
 
 # In[18]:
@@ -210,7 +299,11 @@ print(transform_z.shape)
 
 
 # In[20]:
-
+"""
+사이파이(SciPy)는 파이썬을 이용한 과학 기술 및 수학적 계산을 위한 라이브러리입니다. 
+'Scientific Python'의 줄임말로, 앞서 설명해 드린 넘파이(NumPy)를 기반으로 
+그 위에 구축된 확장판이라고 생각하시면 이해하기 쉽습니다
+"""
 
 from scipy.stats import zscore
 
@@ -219,6 +312,14 @@ sp_z_nogroup = zscore(df["lifeExp"])
 
 print(transform_z.head())
 
+# sp_z_grouped VS transform_z VS sp_z_nogroup : 결과값이 모두 다르다
+# 표준 편차를 구하는 방식의 차이 
+
+#%%
+
+def my_zscore(x):
+    return((x-x.mean())/x.std(ddof=0))
+transform_z2 = df.groupby('year')["lifeExp"].transform(my_zscore)
 
 # In[21]:
 
@@ -235,10 +336,20 @@ print(sp_z_nogroup[:5])
 # ### 평균값으로 결측값 채우기
 
 # #### [Do It! 실습] 평균값으로 결측값 채우기 
-
+############################################################
+"""
+결측치 : 누락된 상태
+- NaN : np.nan(넘파이), Not a Number, 숫자가 아니다
+- NA :  Not Availiable, 이용할 수 없다.  
+- fillna() : 누락된 데이터를 채워라   
+- None : 파이썬의 자료형, 판다스(NaN)
+- pd.NA : 판다스
+넘파이 -> np.nan 
+판다스 -> pd.NA      
+"""    
 # In[23]:
 
-
+import pandas as pd
 import seaborn as sns
 import numpy as np
 
@@ -246,16 +357,26 @@ np.random.seed(42)
 
 tips_10 = sns.load_dataset("tips").sample(10)
 
-
+tipx_10 = tips_10.copy()
 # In[24]:
 
 
 tips_10.loc[
     np.random.permutation(tips_10.index)[:4],
     "total_bill"
-] = np.NaN
+] = np.nan
 
 print(tips_10)
+
+#%%
+
+tipx_10.loc[
+    np.random.permutation(tipx_10.index)[:4],
+    "total_bill"
+]= np.nan
+
+
+print(np.random.permutation([1,2,3,4,5]))
 
 
 # In[25]:
@@ -263,11 +384,23 @@ print(tips_10)
 
 count_sex = tips_10.groupby('sex').count()
 print(count_sex)
+#%%
+"""
+        total_bill  tip  smoker  day  time  size
+sex                                             
+Male             7    7       7    7     7     7
+Female           3    3       3    3     3     3
 
+"""
 
 # In[26]:
 
+#평균값으로 결측값을 채움
 
+avg_sex_mean = tips_10.groupby("sex")['total_bill'].agg(np.mean)
+
+print(avg_sex_mean)
+#%%
 def fill_na_mean(x):
     avg = x.mean() 
     return x.fillna(avg)
@@ -293,20 +426,31 @@ print(tips_10[['sex', 'total_bill', 'fill_total_bill']])
 
 # In[28]:
 
+import pandas as pd
+import seaborn as sns
+import numpy as np
+
 
 tips = sns.load_dataset('tips')
 print(tips.shape)
 
-
+#%%
+print(tips['time'].unique())
+# Categories (2, str): ['Lunch', 'Dinner']
 # In[29]:
 
-
+print(tips['day'].value_counts())
+print(tips['time'].value_counts())
 print(tips['size'].value_counts())
 
+#%%
+
+print(tips['day'].unique())
+# Categories (4, str): ['Thur', 'Fri', 'Sat', 'Sun']
 
 # In[30]:
 
-
+# 함수(filterd) : 특정한 조건에 해당 데이터를 추출
 tips_filtered = (
     tips
     .groupby("size")
@@ -325,7 +469,7 @@ print(tips_filtered.shape)
 
 print(tips_filtered['size'].value_counts())
 
-
+#%%
 # ## 08-4 그룹 객체
 
 # ### 그룹 객체란?

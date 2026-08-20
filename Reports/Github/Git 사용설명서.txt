@@ -1,0 +1,58 @@
+(원격 저장소 위치)
+github.com
+https://github.com/useracccount/repo.git
+
+(init)
+1. 로컬 저장소 생성
+2. 작업 폴더에 새로운 폴더(.git)이 생성
+3. 사용법 : git init
+   $ git init
+4. 원격 저장소를 연결하려면
+   $ git remote add origin https://github.com/useracccount/repo.git
+
+(.gitignore)
+1. 깃으로 관리할 필요가 없는 파일을 깃에게 알리는 파일
+2. 파일이름 : .gitignore
+3. 파일위치 : 로컬 저장소 홈 디렉토리, 디렉토리(.git)이 있는 위치
+3. 사이트(gitignore.io) : windows, java, eclipse
+   gitignore.io에서 생성된 내용을 카피하여 파일(.gitignore)로 생성 하거나 수정
+
+(clone)
+1. 로컬저장소가 git init에 의해서 생성되었거나 존재하지 않는 경우 사용
+   - 클론을 하고자 하는 폴더에 .git 폴더가 존재하지 않아야 한다.
+2. 원격서버에 있는 저장소를 로컬 저장소로 복제 및 연동
+3. 원격과 동일한 저장소를 로컬에 생성
+4. 원격의 있는 자료를 로컬로 복사
+5. 로컬에서 원격으로 접속할 수 있도록 연결
+6. 최소에 한 번만 수행
+7. 사용법 
+   $ git clone https://github.com/useracccount/repo.git
+   $ git remote -v
+     origin https://github.com/useracccount/repo.git (fetch)
+     origin https://github.com/useracccount/repo.git (push)
+
+(pull)
+1. 원격 저장소의 내용과 로컬 저장소의 내용을 동기화
+2. 원격 저장소의 내용을 로컬 저장소의 내용과 머지
+3. 사용법: git pull 서버이름 브랜치이름
+   $ git pull origin master
+   $ git pull origin main
+   
+(push)
+1. 로컬 저장소의 내용을 원격 저장소로 반영
+2. 사용법: git push 서버이름 브랜치이름
+   $ git push origin master
+   $ git push origin main
+   
+(add)
+1. 새로운 파일을 등록
+2. 사용법 : git add 파일이름
+   $ git add filename
+   
+(commit)
+1. 새로운 파일이나 수정된 파일을 로컬 저장소에 반영
+2. 사용법 git commit -m "커밋 메시지"
+   $ git commit -m "[create] 파일생성"
+   $ git commit -m "[edit] 파일생성"
+   
+   

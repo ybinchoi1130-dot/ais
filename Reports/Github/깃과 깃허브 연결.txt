@@ -1,0 +1,48 @@
+[처리순서]
+
+1. Github 저장소 생성
+
+2. 서버와 연결
+	# [방법1] 로컬 저장소에 클론: 저장소를 생성하고 서버와 연결
+	git clone https://github.com/useraccont/repo.git
+	# ex) git clone https://github.com/solgitsx/YSHello.git
+
+	# [방법2] 로컬 저장소를 생성하고 서버와 연결
+	git init
+	git remote add origin https://github.com/useraccont/repo.git
+	git pull origin master
+	
+3. pull : 서버에서 로컬로 가져오기
+	# 정상
+	git pull origin master
+
+	# 오류
+	git pull origin master --allow-unrelated-histories
+	
+4. 로컬에서 브랜치를 만들고 서버에 병합을 요청(pull requests)
+	# 브랜치 생성
+	git branch readme
+	
+	# 브랜치 이동
+	git checkout readme
+	
+	# 작업: 파일 생성 및 수정
+	git add .
+	git commit -m '커밋 메시지'
+	
+	# 서버로 병합 요청
+	git push origin readme
+	
+5. Github에서 병합
+	# 로컬에서 요청된 브랜치로 이동
+	# New pull request 
+	# Create pull request
+	# Merge pull request
+	# Confirm merge
+
+6. THE END
+	
+	
+	
+	
+	

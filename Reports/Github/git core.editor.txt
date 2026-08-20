@@ -1,0 +1,9 @@
+[git core.editor]
+
+git config core.editor 
+	"'C:/Program Files/Notepad++/notepad++.exe' 
+	-multiInst -notabbar -nosession -noPlugin"
+	
+git config --global core.editor 
+	"'C:/Program Files/Notepad++/notepad++.exe' 
+	-multiInst -notabbar -nosession -noPlugin"

@@ -14,13 +14,13 @@ df1 = pd.read_csv('../data/concat_1.csv')
 df2 = pd.read_csv('../data/concat_2.csv')
 df3 = pd.read_csv('../data/concat_3.csv')
 print(df1)
-
+             
 
 # In[2]:
 
 
 print(df2)
-
+          
 
 # In[3]:
 
@@ -54,6 +54,8 @@ print(df1.values)
 
 # In[7]:
 
+#행 방향으로 데이터프레임 연결
+# 데이터 프레임 :[df1,df2,df3]
 
 row_concat = pd.concat([df1, df2, df3])
 print(row_concat)
@@ -77,6 +79,14 @@ print(new_row_series)
 
 print(pd.concat([df1, new_row_series]))
 
+#%%
+# 시리즈를 데이터프레임으로 변환
+
+new_row_series = pd.Series(['n1', 'n2', 'n3', 'n4'])
+print(new_row_series)
+
+new_row_series_df=pd.DataFrame(new_row_series,
+                               columns=['A','B','C','D'])
 
 # In[11]:
 
@@ -98,7 +108,8 @@ print(pd.concat([df1, new_row_df]))
 
 # In[13]:
 
-
+# 옵션 : 원본 데이터의 인덱스를 무시하고 새로운 인덱스를 부여 
+# ignore_index = True : 기존 인덱스를 무시
 row_concat_i = pd.concat([df1, df2, df3], ignore_index=True)
 print(row_concat_i)
 
@@ -122,6 +133,8 @@ print(col_concat['A'])
 
 # In[16]:
 
+# 새로운 컬럼('new_col_list') 추가
+# ★ 리스트 요소의 갯수와 데이터프레임의 행을 갯수가 일치 
 
 col_concat['new_col_list'] = ['n1', 'n2', 'n3', 'n4']
 print(col_concat)
@@ -145,24 +158,29 @@ print(pd.concat([df1, df2, df3], axis="columns", ignore_index=True))
 # #### [Do It! 실습] 열 이름이 다른 데이터 행 방향 연결하기
 
 # In[19]:
+# 복사본을 수정해도 원본의 변화는 없다. 
+
+#df1c = df1 : 그냥 할당하면 원본에도 변화가 생긴다.
 
 
-df1.columns = ['A', 'B', 'C', 'D']
-df2.columns = ['E', 'F', 'G', 'H']
-df3.columns = ['A', 'C', 'F', 'H']
-print(df1)
+# 복사본 = 원본.copy()    
+
+df1c = df1.copy()
+df2c = df2.copy()
+df3c = df3.copy()
 
 
-# In[20]:
-
-
-print(df2)
-print(df3)
+df1c.columns = ['A', 'B', 'C', 'D']
+df2c.columns = ['E', 'F', 'G', 'H']
+df3c.columns = ['A', 'C', 'F', 'H']
+print(df1c)
+print(df2c)
+print(df3c)
 
 
 # In[21]:
 
-
+# 행 방향 결합(연결)
 row_concat = pd.concat([df1, df2, df3])
 print(row_concat)
 
@@ -176,31 +194,32 @@ print(pd.concat([df1, df2, df3], join='inner'))
 # In[23]:
 
 
-print(pd.concat([df1,df3], ignore_index=False, join='inner'))
+print(pd.concat([df2,df3], ignore_index=False, join='inner'))
 
 
 # #### [Do It! 실습] 인덱스가 다른 데이터 열 방향 연결하기
 
 # In[24]:
 
-
-df1.index = [0, 1, 2, 3]
-df2.index = [4, 5, 6, 7]
-df3.index = [0, 2, 5, 7]
-print(df1)
-
-
-# In[25]:
+    
+df1x =df1c.copy()
+df2x =df2c.copy()
+df3x =df3c.copy()
 
 
-print(df2)
-print(df3)
+
+df1x.index = [0, 1, 2, 3]
+df2x.index = [4, 5, 6, 7]
+df3x.index = [0, 2, 5, 7]
+print(df1x)
+print(df2x)
+print(df3x)
 
 
 # In[26]:
 
 
-col_concat = pd.concat([df1, df2, df3], axis="columns")
+col_concat = pd.concat([df1x, df2x, df3x], axis="columns")
 print(col_concat)
 
 
@@ -212,16 +231,15 @@ print(pd.concat([df1, df3], axis="columns", join='inner'))
 
 # ## 07-3 분할된 데이터 연결하기
 
-# #### [Do It! 실습] 여러 개의 파일로 분할된 데이터 연결하기
+# #### [Do It! 실습] 여러 개의 파일로 분할된 데이터 연 ,결하기
 
 # In[28]:
-
 
 from pathlib import Path
 
 billboard_data_files = (
     Path(".")
-    .glob("../data/billboard-by_week/billboard-*.csv")
+    .glob("../data/billboard_by_week/billboard-*.csv")
 )
 
 billboard_data_files = sorted(list(billboard_data_files))
@@ -279,7 +297,7 @@ assert (
 from pathlib import Path
 billboard_data_files = (
     Path(".")
-    .glob("../data/billboard-by_week/billboard-*.csv")
+    .glob("../data/billboard_by_week/billboard-*.csv")
 )
 
 # 빈 리스트를 생성합니다.
@@ -437,7 +455,11 @@ ps = person.merge(survey, left_on='ident', right_on='person')
 vs = visited.merge(survey, left_on='ident', right_on='taken')
 print(ps)
 
+#%%
 
+print(person["ident"].value_counts())
+print(ps["ident"].value_counts())
+print(survey["person"].value_counts())
 # In[52]:
 
 
@@ -542,14 +564,15 @@ print(billboard_songs.shape)
 
 # In[65]:
 
-
+# 중복 제거 : drop_duplicates()
 billboard_songs = billboard_songs.drop_duplicates()
 print(billboard_songs.shape)
 
 
 # In[66]:
 
-
+# 컬럼 추가 
+# 인덱스 +1 : 인덱스보다 1씩 큰 값을 컬럼('id')로 지정
 billboard_songs['id'] = billboard_songs.index + 1
 print(billboard_songs)
 
