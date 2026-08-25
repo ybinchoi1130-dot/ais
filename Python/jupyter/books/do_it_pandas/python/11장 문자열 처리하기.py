@@ -134,7 +134,7 @@ print(sent[::3])
 # In[19]:
 
 
-print("black Knight".capitalize())
+print("black Knight".capitalize()) # 첫문자만 대문자 나머지는 소문자
 print("It's just a flesh wound!".count('u'))
 print("Halt! Who goes there?".startswith('Halt'))
 print("coconut".endswith('nut'))
@@ -284,6 +284,7 @@ print(s)
 
 
 prop = 7 / 67890
+print(prop) # 0.00010310796877301516
 s = f"I remember {prop:.4} or {prop:.4%} of what Lu Chao recited."
 print(s)
 
@@ -322,7 +323,7 @@ tele_num = '1234567890'
 
 # In[38]:
 
-
+# 
 m = re.match(pattern='\d\d\d\d\d\d\d\d\d\d', string=tele_num) 
 print(type(m))
 
@@ -486,6 +487,8 @@ King Arthur: What?
 Guard: You've got ... coconut[s] and you're bangin' 'em together.
 """
 
+
+# sub(패턴, 대상문자열, 교체문자열)
 p = '\w+\s?\w+:\s?'
 s = re.sub(pattern=p, string=multi_str, repl='')
 print(s)
@@ -497,14 +500,9 @@ print(s)
 guard = s.splitlines()[ ::2]
 kinga = s.splitlines()[1::2]
 print(guard)
-
-
-# In[56]:
-
-
 print(kinga)
 
-
+#%%
 # ### compile() 메서드
 
 # In[57]:
@@ -556,7 +554,4 @@ print(m)
 
 
 # In[ ]:
-
-
-
 

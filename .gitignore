@@ -419,4 +419,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+
+*.epi_sim.txt
+
 # End of https://www.toptal.com/developers/gitignore/api/windows,python,java,linux,jetbrains+all,visualstudiocode

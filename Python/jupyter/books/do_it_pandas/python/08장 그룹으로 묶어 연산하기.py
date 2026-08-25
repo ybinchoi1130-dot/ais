@@ -473,11 +473,23 @@ print(tips_filtered['size'].value_counts())
 # ## 08-4 그룹 객체
 
 # ### 그룹 객체란?
+# 평탄화(flatten):
+# - 일반 데이터프레임처럼 하기 위해 reset_index() 사용
+# - reset_index()를 하면 인덱스의 값이 컬럼으로 이동
+
+
+
 
 # In[33]:
 
 
-tips_10 = sns.load_dataset('tips').sample(10, random_state=42)
+import pandas as pd
+import seaborn as sns
+import numpy as np
+
+#np.random.seed(42) :모든 랜덤시드에 값을 준다
+
+tips_10 = sns.load_dataset('tips').sample(10, random_state=42) #명령어 한해서만
 print(tips_10)
 
 
@@ -491,17 +503,22 @@ print(grouped)
 # In[35]:
 
 
-print(grouped.groups)
+print(type(grouped.groups),grouped.groups)
 
-
+# 딕셔너리 형태: 키(sex), 값(index)
 # #### [Do It! 실습] 그룹 객체로 여러 열에 집계 함수 적용하기
 
 # In[36]:
 
-
+# 숫자인 컬럼만 연산을 수행: numeric_only =True
 avgs = grouped.mean(numeric_only=True)
 print(avgs)
 
+#%%
+# category dtype does not support aggregation 'mean'
+# category 범주형 자료형, 분류라서 안된다.
+avgs = grouped.mean()
+print(avgs)
 
 # In[37]:
 
@@ -513,10 +530,13 @@ print(tips_10.columns)
 
 # In[38]:
 
-
 female = grouped.get_group('Female')
 print(female)
 
+#%%
+
+male = grouped.get_group('Male')
+print(male)
 
 # In[39]:
 
@@ -564,10 +584,12 @@ for sex_group in grouped:
 
 
 # #### [Do It! 실습] 여러 개의 변수로 그룹화하고 결과 평탄화하기
-
+# 평탄화 : 일반 데이터프레임처럼 하기 위해 reset_index() 사용
+# reset_index()를 하면 인덱스의 값이 컬럼으로 이동
 # In[42]:
 
-
+# 그룹을 여러 개로 지정하면 다중 인덱스 형태로 구성된다. 
+# 단계별 그룹 
 bill_sex_time = tips_10.groupby(['sex', 'time'])
 
 group_avg = bill_sex_time.mean(numeric_only=True)
@@ -596,20 +618,40 @@ print(group_avg.columns)
 
 print(group_avg.index)
 
+#%%
+
+print(group_avg.loc[('Male','Lunch')])
+print(group_avg.loc[('Female','Dinner')])
 
 # In[47]:
 
 
-group_method = tips_10.groupby(['sex',
-                                'time']).mean(numeric_only=True).reset_index()
+group_method =( tips_10.groupby(['sex','time'])
+    .mean(numeric_only=True)
+    .reset_index()) # 데이터 평탄화
+    
 print(group_method)
 
+#%%
+# 멀티 인덱스였던 컬럼('sex','time')이 컬럼으로 이동
+# 인덱스는 새로 0부터 순차적으로 부여
 
+"""
+      sex    time  total_bill       tip      size
+0    Male   Lunch   28.440000  2.560000  2.000000
+1    Male  Dinner   18.616667  2.928333  2.666667
+2  Female   Lunch   12.740000  2.260000  2.000000
+3  Female  Dinner   15.380000  3.000000  2.000000
+
+"""
 # In[48]:
 
+# 매서드 groupby의 옵션 as_index=False를 지정하여
+# reset_index() 효과를 냄
+group_param = (tips_10.groupby(['sex', 'time'],
+     as_index=False)
+     .mean(numeric_only=True))
 
-group_param = tips_10.groupby(['sex', 'time'],
-                              as_index=False).mean(numeric_only=True)
 print(group_param)
 
 
