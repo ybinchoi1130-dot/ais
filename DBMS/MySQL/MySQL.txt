@@ -1,0 +1,11 @@
+[DBMS 다운로드]
+
+(MySQL)
+버전: 8.4.11 LTS
+O/S: Windows
+주소: https://dev.mysql.com/downloads/mysql/
+
+(MySQL Workbench) 8.0.47
+버전: MySQL Workbench 8.0.47
+O/S: Windows
+주소: https://dev.mysql.com/downloads/workbench/

@@ -1,0 +1,8 @@
+설치위치
+C:\DBMS\mysql-8.4.11
+
+cofig Type :Development Computer
+
+port: 3306
+
+비밀번호 : 12345!
