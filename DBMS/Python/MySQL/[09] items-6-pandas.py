@@ -36,10 +36,24 @@ conn.commit()
 
 #%%
 
+sql = "SELECT * FROM items"
+
 # 데이터 추출하기 --- (※6)
-cur.execute("SELECT * FROM items")
+cur.execute(sql)
 for row in cur.fetchall():
     print(row)
+
+#%%
+
+# 데이터베이스의 테이블 정보를 
+# 판다스의 데이터프레임으로 읽기
+import pandas as pd
+
+items_df = pd.read_sql_query(sql, conn)
+print(items_df)
+
+
+#%%
 
 cur.close()
 conn.close()

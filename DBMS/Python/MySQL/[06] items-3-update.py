@@ -25,18 +25,34 @@ cur.execute('''
         price INTEGER
     )
     ''')
+conn.commit()
+
+#%%
 
 # 데이터 추가하기 --- (※5)
-datum = [('Banana', 300), ('Mango', 640), ('Kiwi', 280)]
-for data in datum:
-    cur.execute("INSERT INTO items(name,price) VALUES(%s,%s)", data)
+datum = [('Banana', 300),('Mango', 640), ('Kiwi', 280), ('Pineapple', 700)]
+cur.executemany("INSERT INTO items(name,price) VALUES(%s,%s)", datum)
+conn.commit()
+
+#%%
 
 # 데이터 추출하기 --- (※6)
 cur.execute("SELECT * FROM items")
 for row in cur.fetchall():
     print(row)
 
-cur.close()
-
+#########################################################################
+# 데이터 '가격', 변경하기 --- (※7)
+# 주의: SQL문에 대응하는 값의 위치: 가격, 이름
+print("변경된 가격")
+datum = [(310, 'Banana'),(740, 'Mango'), (380, 'Kiwi'), (888, 'Pineapple')]
+cur.executemany("UPDATE items SET price=%s WHERE name=%s", datum)
 conn.commit()
+
+# 데이터 추출하기 --- (※8)
+cur.execute("SELECT * FROM items")
+for row in cur.fetchall():
+    print(row)
+
+cur.close()
 conn.close()

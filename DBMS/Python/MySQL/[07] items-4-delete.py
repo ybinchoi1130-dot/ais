@@ -30,7 +30,7 @@ conn.commit()
 #%%
 
 # 데이터 추가하기 --- (※5)
-datum = [('Banana', 300),('Mango', 640), ('Kiwi', 280), ('파인애플', 777)]
+datum = [('Banana', 300),('Mango', 640), ('Kiwi', 280), ('Pineapple', 777)]
 cur.executemany("INSERT INTO items(name,price) VALUES(%s,%s)", datum)
 conn.commit()
 
@@ -41,4 +41,19 @@ cur.execute("SELECT * FROM items")
 for row in cur.fetchall():
     print(row)
 
+#########################################################################
+# 데이터 삭제하기 --- (※7)
+# 주의: 튜플이 1개이므로 콤마(,)를 넣어야 한다.
+print("삭제된 데이터: Mango, Pineapple")
+datum = [('Mango',), ('Pineapple',)]
+cur.executemany("DELETE FROM items WHERE name=%s", datum)
+conn.commit()
+
+# 데이터 추출하기 --- (※8)
+cur.execute("SELECT * FROM items")
+for row in cur.fetchall():
+    print(row)
+
+
+cur.close()
 conn.close()
