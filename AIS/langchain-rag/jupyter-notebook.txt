@@ -1,0 +1,11 @@
+[주피터 노트북]
+
+랭체인과 RAG로 배우는 실전 LLM 애플리케이션 개발
+https://github.com/wikibook/langchain-rag
+https://github.com/solgitsx/langchain-rag
+
+conda activate ais
+jupyter notebook --notebook-dir="D:\AIS26L\workspace\AIs\langchain-rag\jupyter"
+
+(Colab)
+구글 드라이브에 카피 후 연동

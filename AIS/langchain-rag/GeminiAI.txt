@@ -1,0 +1,9 @@
+[Google Gemini AI]
+
+Google AI Studio: https://aistudio.google.com
+
+(GOOGLE_API_KEY)
+
+
+https://ai.google.dev/gemini-api/docs/models?hl=ko
+https://ai.google.dev/gemini-api/docs/models
