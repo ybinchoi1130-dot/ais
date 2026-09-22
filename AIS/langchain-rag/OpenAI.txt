@@ -1,0 +1,4 @@
+[OpenAI]
+https://platform.openai.com
+
+YOUR_API_KEY_HERE
