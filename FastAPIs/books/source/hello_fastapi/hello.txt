@@ -1,0 +1,41 @@
+Python 3.13.14
+
+(Anaconda PowerShell Prompt)
+conda activate ais
+d:
+cd D:\AIS26L\workspace\FastAPIs\Books
+pip install -r requirements.txt
+
+(hello_fastapi)
+cd D:\AIS26L\workspace\FastAPIs\Books\source\hello_fastapi
+fastapi dev
+
+웹브라우저: http://127.0.0.1/8000
+
+(PowerShell)
+curl.exe -X GET http://127.0.0.1:8000/
+{"message":"Hello, FastAPI!"}
+
+curl.exe -X POST `
+  "http://127.0.0.1:8000/items" `
+  -H "accept: */*" `
+  -H "Content-Type: application/json" `
+  -d '{\"name\": \"마우스\", \"price\": 25000, \"in_stock\": true}'
+
+curl.exe -X POST "http://127.0.0.1:8000/items" 
+    -H "accept: */*" 
+    -H "Content-Type: application/json" 
+    -d '{ \"name\": \"마우스\", \"price\": 25000, \"in_stock\": true }'
+{"name":"마우스","price":25000,"in_stock":true}
+
+(cmd)
+curl -X GET http://127.0.0.1:8000/
+{"message":"Hello, FastAPI!"}
+
+curl -X POST http://127.0.0.1:8000/items 
+    -H "accept: */*" 
+    -H "Content-Type: application/json" 
+    -d "{ \"name\": \"마우스\", \"price\": 25000, \"in_stock\": true  }"
+
+curl -X POST http://127.0.0.1:8000/items -H "accept: */*" -H "Content-Type: application/json" -d "{ \"name\": \"마우스\", \"price\": 25000, \"in_stock\": true  }"
+

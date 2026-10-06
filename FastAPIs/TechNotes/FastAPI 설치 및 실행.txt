@@ -1,0 +1,29 @@
+[FastAPI 설치 및 실행]
+
+FastAPI를 실행하려면 ASGI 서버인 uvicorn이 필요합니다. 
+
+참고: main:app에서 main은 파일 이름(main.py)을, 
+app은 코드 내에서 생성한 FastAPI() 인스턴스 변수명을 의미합니다. 
+--reload 옵션을 붙이면 코드를 수정할 때마다 서버가 자동으로 재시작됩니다.
+
+터미널에서 아래 명령어를 순서대로 입력하세요.
+1. 패키지 설치
+	pip install fastapi[standard]==0.128.0
+	pip install fastapi
+	pip install uvicorn
+
+2. 서버 실행
+	fastapi dev
+	uvicorn main:app --reload
+	uvicorn main:app --host 0.0.0.0 --port 8088
+	
+3. 웹브라우저
+	http://127.0.0.1:8000/
+	
+	대화형 API 문서 (Swagger UI): http://127.0.0.1:8000/docs
+
+	FastAPI가 코드를 해석해 자동으로 생성해 주는 문서입니다. 
+	브라우저에서 직접 API를 테스트(Try it out)해 볼 수 있습니다.
+
+	대체 API 문서 (ReDoc): http://127.0.0.1:8000/redoc	
+	
