@@ -1,0 +1,24 @@
+[Git & Github]
+
+# 깃 시스템 다운로드
+https://git-scm.com/
+
+# 최소 초기 설정
+git config --global user.name "사용자"
+git config --global user.email "사용자메일주소"
+
+# 디폴드 브랜치 변경
+git config --global init.defaultBranch main
+
+# 디폴트 브랜치 확인
+git config --get init.defaultBranch
+
+# 커밋 메시지 한글 표시
+git config --global core.quotepath false
+
+(c:/Users/사용자계정/.gitconfig)
+[user]
+	name = useraccount
+	email = useraccount@mail-address
+[init]
+	defaultBranch = main
