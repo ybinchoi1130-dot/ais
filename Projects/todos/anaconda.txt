@@ -1,0 +1,20 @@
+# 아나콘다에서 가상 환경 생성
+
+# 가상 환경 생성
+conda create -n ais python=3.13.14
+
+# 가상 환경 확인
+conda env list
+
+# 가상 환경 활성화
+conda activate ais
+
+# 패키지 설치
+pip install -r requirements.txt
+
+# 가상 환경 삭제
+conda deactivate 
+conda remove -n ais --all -y
+
+# 가상 환경 삭제 후 콘다 캐시 정리
+conda clean --all -y
