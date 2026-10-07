@@ -1,0 +1,17 @@
+[깃 설정 관리]
+
+(.gitconfig)
+[user]
+	name = solero
+	email = solero@ysit.edu
+[init]
+	defaultBranch = main
+[core]
+	quotepath = false
+	
+(Git Large File Storage)
+# https://docs.github.com/ko/repositories/working-with-files/managing-large-files/configuring-git-large-file-storage
+
+# 예시: 엑셀 파일 대용량 처리 연결
+git lfs track "*.xlsx"
+

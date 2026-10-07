@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="/static/css/signup.css">
+</head>
+<body>
+    <div class="signup-container">
+        <h2>회원가입</h2>
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="email">이메일</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">비밀번호</label>
+                <input type="password" id="password" name="password" required minlength="8">
+                <span class="password-hint">영문 대/소문자, 숫자, 특수문자를 각각 1개 이상 포함해야 합니다. (최소 8자)</span>
+            </div>
+            <div class="form-group">
+                <label for="passwordConfirm">비밀번호 확인</label>
+                <input type="password" id="passwordConfirm" name="passwordConfirm" required minlength="8">
+            </div>
+            <button type="submit">가입하기</button>
+            <button type="button" class="btn-secondary" onclick="location.href='/login'">돌아가기</button>
+        </form>
+        <div id="message" class="message"></div>
+    </div>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const passwordConfirm = document.getElementById('passwordConfirm').value;
+            const messageDiv = document.getElementById('message');
+            
+            messageDiv.textContent = '';
+            messageDiv.className = 'message';
+
+            if (password !== passwordConfirm) {
+                messageDiv.textContent = '비밀번호가 일치하지 않습니다.';
+                messageDiv.classList.add('error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/users/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    messageDiv.textContent = '회원가입이 완료되었습니다! 잠시 후 로그인 페이지로 이동합니다.';
+                    messageDiv.classList.add('success');
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 2000);
+                } else {
+                    // Display detail array for validation errors if any, otherwise single detail message
+                    let errorMsg = '회원가입에 실패했습니다.';
+                    if (data.detail) {
+                        if (Array.isArray(data.detail)) {
+                            errorMsg = data.detail.map(d => d.msg).join(', ');
+                        } else {
+                            errorMsg = data.detail;
+                        }
+                    }
+                    messageDiv.textContent = errorMsg;
+                    messageDiv.classList.add('error');
+                }
+            } catch (error) {
+                messageDiv.textContent = '서버 오류가 발생했습니다.';
+                messageDiv.classList.add('error');
+            }
+        });
+    </script>
+</body>
+</html>

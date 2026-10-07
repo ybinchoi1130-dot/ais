@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>할 일 목록</title>
+    <link rel="stylesheet" href="/static/css/todos.css">
+</head>
+<body>
+    <div class="container">
+        <div class="user-info-bar">
+            <div class="user-info-text">
+                <svg class="user-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span>로그인 계정: <strong id="userEmailDisplay">불러오는 중...</strong></span>
+            </div>
+            <button class="logout-btn" onclick="logout()">로그아웃</button>
+        </div>
+        <div class="header">
+            <h2>내 할 일 목록</h2>
+        </div>
+
+        <div id="errorMessage" class="error-message"></div>
+
+        <form class="add-todo-form" id="addTodoForm">
+            <input type="text" id="todoTitle" placeholder="새로운 할 일을 입력하세요" required>
+            <button type="submit">추가</button>
+        </form>
+
+        <ul class="todo-list" id="todoList">
+            <!-- 할 일 항목이 여기에 동적으로 추가됩니다 -->
+        </ul>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeEditModal()">&times;</span>
+            <h3>할 일 변경</h3>
+            <div class="modal-form-group">
+                <label for="editTitle">할 일</label>
+                <input type="text" id="editTitle">
+            </div>
+            <div class="modal-form-group">
+                <label for="editIsDone">
+                    <input type="checkbox" id="editIsDone"> 완료 유무
+                </label>
+            </div>
+            <button class="modal-save-btn" onclick="saveEditedTodo()">저장</button>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeDeleteModal()">&times;</span>
+            <h3>할 일 삭제</h3>
+            <p class="delete-desc">다음 할 일을 정말 삭제하시겠습니까?</p>
+            <div class="delete-content-box" id="deleteTodoContent"></div>
+            <div class="modal-actions">
+                <button type="button" class="modal-delete-btn" onclick="confirmDeleteTodo()">삭제</button>
+                <button type="button" class="modal-cancel-btn" onclick="closeDeleteModal()">취소</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const token = sessionStorage.getItem('access_token');
+        if (!token) {
+            // 토큰이 없으면 로그인 페이지로 이동
+            window.location.href = '/login';
+        }
+
+        const todoList = document.getElementById('todoList');
+        const errorMessage = document.getElementById('errorMessage');
+        
+        let currentEditId = null;
+        let currentDeleteId = null;
+
+        // 할 일 목록 불러오기
+        async function fetchTodos() {
+            try {
+                const response = await fetch('/todos', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (response.status === 401 || response.status === 403) {
+                    sessionStorage.removeItem('access_token');
+                    sessionStorage.removeItem('user_email');
+                    window.location.href = '/login';
+                    return;
+                }
+
+                if (!response.ok) throw new Error('목록을 불러오지 못했습니다.');
+
+                const todos = await response.json();
+                renderTodos(todos);
+            } catch (error) {
+                errorMessage.textContent = error.message;
+            }
+        }
+
+        // 할 일 렌더링
+        function renderTodos(todos) {
+            todoList.innerHTML = '';
+            todos.forEach(todo => {
+                const li = document.createElement('li');
+                li.className = `todo-item ${todo.is_done ? 'done' : ''}`;
+                li.innerHTML = `
+                    <input type="checkbox" ${todo.is_done ? 'checked' : ''} onchange="toggleTodo(${todo.id}, this.checked)">
+                    <span class="title">${todo.title}</span>
+                    <button class="edit-btn" onclick="openEditModal(${todo.id}, '${todo.title.replace(/'/g, "\\'")}', ${todo.is_done})">변경</button>
+                    <button class="delete-btn" onclick="openDeleteModal(${todo.id}, '${todo.title.replace(/'/g, "\\'")}')">삭제</button>
+                `;
+                todoList.appendChild(li);
+            });
+        }
+
+        // 새 할 일 추가
+        document.getElementById('addTodoForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const titleInput = document.getElementById('todoTitle');
+            const title = titleInput.value;
+
+            try {
+                const response = await fetch('/todos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ title: title, is_done: false })
+                });
+
+                if (!response.ok) throw new Error('할 일을 추가하지 못했습니다.');
+
+                titleInput.value = '';
+                fetchTodos(); // 목록 새로고침
+            } catch (error) {
+                errorMessage.textContent = error.message;
+            }
+        });
+
+        // 할 일 상태 변경 (완료 처리)
+        async function toggleTodo(id, isDone) {
+            try {
+                const response = await fetch(`/todos/${id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ is_done: isDone })
+                });
+
+                if (!response.ok) throw new Error('상태를 변경하지 못했습니다.');
+                fetchTodos();
+            } catch (error) {
+                errorMessage.textContent = error.message;
+                fetchTodos(); // 실패 시 원래 상태로 복구
+            }
+        }
+
+
+
+        // 모달 열기
+        function openEditModal(id, title, isDone) {
+            currentEditId = id;
+            document.getElementById('editTitle').value = title;
+            document.getElementById('editIsDone').checked = isDone;
+            document.getElementById('editModal').style.display = 'flex';
+        }
+
+        // 모달 닫기
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+            currentEditId = null;
+        }
+
+        // 모달 저장 버튼 클릭
+        async function saveEditedTodo() {
+            if (currentEditId === null) return;
+            
+            const newTitle = document.getElementById('editTitle').value;
+            const newIsDone = document.getElementById('editIsDone').checked;
+            
+            if (newTitle.trim() === '') {
+                alert('할 일을 입력하세요.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/todos/${currentEditId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ 
+                        title: newTitle.trim(),
+                        is_done: newIsDone
+                    })
+                });
+
+                if (!response.ok) throw new Error('할 일을 변경하지 못했습니다.');
+                
+                closeEditModal();
+                fetchTodos();
+            } catch (error) {
+                errorMessage.textContent = error.message;
+            }
+        }
+
+        // 삭제 모달 열기
+        function openDeleteModal(id, title) {
+            currentDeleteId = id;
+            document.getElementById('deleteTodoContent').textContent = title;
+            document.getElementById('deleteModal').style.display = 'flex';
+        }
+
+        // 삭제 모달 닫기
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+            currentDeleteId = null;
+        }
+
+        // 삭제 확인 및 실행
+        async function confirmDeleteTodo() {
+            if (currentDeleteId === null) return;
+            
+            try {
+                const response = await fetch(`/todos/${currentDeleteId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) throw new Error('할 일을 삭제하지 못했습니다.');
+                
+                closeDeleteModal();
+                fetchTodos();
+            } catch (error) {
+                errorMessage.textContent = error.message;
+                closeDeleteModal();
+            }
+        }
+
+        // 모달 배경 클릭 시 닫기
+        window.addEventListener('click', function(event) {
+            const editModal = document.getElementById('editModal');
+            const deleteModal = document.getElementById('deleteModal');
+            if (event.target === editModal) {
+                closeEditModal();
+            }
+            if (event.target === deleteModal) {
+                closeDeleteModal();
+            }
+        });
+
+        // 사용자 정보 불러오기
+        async function fetchUserInfo() {
+            const emailDisplay = document.getElementById('userEmailDisplay');
+            const savedEmail = sessionStorage.getItem('user_email');
+            if (savedEmail) {
+                emailDisplay.textContent = savedEmail;
+            }
+
+            try {
+                const response = await fetch('/users/me', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const user = await response.json();
+                    emailDisplay.textContent = user.email;
+                    sessionStorage.setItem('user_email', user.email);
+                } else if (!savedEmail) {
+                    emailDisplay.textContent = '인증된 사용자';
+                }
+            } catch (error) {
+                if (!savedEmail) {
+                    emailDisplay.textContent = '인증된 사용자';
+                }
+            }
+        }
+
+        // 로그아웃
+        async function logout() {
+            try {
+                await fetch('/users/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+            } catch(e) {} // 로그아웃 API 실패하더라도 로컬 스토리지 클리어 및 이동
+            
+            sessionStorage.removeItem('access_token');
+            sessionStorage.removeItem('user_email');
+            window.location.href = '/login';
+        }
+
+        // 초기 데이터 로드
+        fetchUserInfo();
+        fetchTodos();
+    </script>
+</body>
+</html>
